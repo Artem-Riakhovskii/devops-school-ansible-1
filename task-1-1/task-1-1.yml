@@ -1,0 +1,31 @@
+---
+- name: Task 1-1 playbook
+  hosts: nodes
+  tasks:
+    - name: Install httpd
+      yum:
+        name: httpd
+        state: present
+
+    - name: Enable and check web server
+      service:
+        name: httpd
+        enabled: yes
+        state: started
+
+    - name: Create index.html
+      copy:
+        src: index.html
+        dest: /var/www/html/index.html
+
+    - name: Open ports required for web server
+      firewalld:
+        service: http 
+        permanent: yes
+        state: enabled
+    
+    - name: Enable and check web server
+      service:
+        name: firewalld
+        state: restarted
+...

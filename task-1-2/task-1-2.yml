@@ -1,0 +1,25 @@
+---
+- name: Task 1-2 playbook
+  hosts: nodes 
+  tasks:
+    - name: Remove httpd
+      yum:
+        name: httpd
+        state: removed
+
+    - name: Remove index.html
+      file:
+        path: /var/www/html/index.html
+        state: absent
+
+    - name: Open ports required for web server
+      firewalld:
+        service: http 
+        permanent: yes
+        state: disabled
+    
+    - name: Enable and check web server
+      service:
+        name: firewalld
+        state: restarted
+...
